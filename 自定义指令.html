@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="vue.js"></script>
+        <style type="text/css">
+            .active{
+                background: red;
+            }
+            .static{
+                width:100px;
+                height:100px;
+            }
+            .border{
+                border:5px solid blue;
+            }
+            .color-preview{
+                display: inline-block;
+                width: 50px;
+                height:50px;
+            }
+        </style>
+        <script src="https://unpkg.com/tween.js@16.3.4"></script>
+        <script src="https://unpkg.com/color-js@1.0.3/color.js"></script>
+    </head>
+    <body>
+        <div id="test">
+            <input v-focus>
+        </div>
+        
+    </body>
+    <script type="text/javascript">
+    //注册一个全局自定义指令 v-focus
+        Vue.directive('focus',{
+            //当绑定元素插入到DOM中
+            inserted:function(el){
+                //聚焦元素
+                el.focus()
+            }
+        })
+        new Vue({
+            el:'#test'
+        })
+    </script>
+</html>

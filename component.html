@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="vue.js"></script>
+        <style type="text/css">
+            .active{
+                background: red;
+            }
+            .static{
+                width:100px;
+                height:100px;
+            }
+            .border{
+                border:5px solid blue;
+            }
+        </style>
+        <script src="https://cdn.rawgit.com/chrisvfritz/5f0a639590d6e648933416f90ba7ae4e/raw/98739fb8ac6779cb2da11aaa9ab6032e52f3be00/currency-validator.js"></script>
+    </head>
+    <body>
+        <div id="example">
+            <my-component></my-component>
+        </div>
+        <div class = "child">
+            <my-childcom></my-childcom>
+        </div>
+
+        <div id="example2">
+            <simple-counter></simple-counter>
+            <simple-counter></simple-counter>
+            <simple-counter></simple-counter>
+        </div>
+
+        <div id="prop">
+            <input v-model = "test">
+            <child v-bind:message="test"></child>
+        </div>
+        <div id="prop2">
+            <comp v-bind:some-prop="someProp"></comp>
+        </div>
+
+        <div id="counterEvent">
+            <p>{{total}}</p>
+            <button-counter v-on:increment="incrementTotal"></button-counter>
+            <button-counter v-on:increment="incrementTotal"></button-counter>
+        </div>
+
+        <div id="app">
+            <currency-input label="Price" v-model="price"></currency-input>
+            <currency-input label="Shipping" v-model="shipping"></currency-input>
+            <currency-input label="Handling" v-model="handling"></currency-input>
+            <currency-input label="Discount" v-model="discount"></currency-input>
+            <p>Total:${{total}}</p>
+        </div>
+
+        <div id="slot">
+            <h1>我是父组件的标题</h1>
+            <my-slot>
+                <p>这是初始的内容</p>
+                <p>这是更多的初始内容</p>
+            </my-slot>
+        </div>
+
+        <div id="slotTest">
+            <my-parentslot></my-parentslot>
+        </div>
+
+        <div class="container">
+            <app-layout>
+              <h1 slot="header">这里可能是一个页面标题</h1>
+              <p>主要内容的一个段落</p>
+              <p>另一个主要段落</p>
+              <p slot="footer">这里有一些联系信息</p>
+            </app-layout>
+        </div>
+
+        <div id="slot2">
+            <my-child>
+                <template scope="props">
+                    <span>hello from parent</span>
+                    <span>{{props.text}}</span>
+                </template>
+            </my-child>
+        </div>
+        <div id="listSlot">
+            <my-awesome-list :items = "items">
+                <template slot="item" scope="props">
+                    <li>{{props.text}}</li>
+                </template>
+            </my-awesome-list>
+        </div>
+
+        <div id="changeView">
+            <component v-bind:is = "currentView"></component>
+            <button v-on:click="vm.currentView = 'Home'">home</button>
+            <button v-on:click="vm.currentView = 'Posts'">posts</button>
+            <button v-on:click="vm.currentView = 'archive'">archive</button>
+            <button v-on:click="vm.currentView = Child">Child</button>
+            <button v-on:click="vm.currentView = childSlot">childSlot</button>
+            <button v-on:click="vm.currentView = parentSlot">parentSlot</button>
+        </div>
+    </body>
+    <script type="text/javascript" src="component.js"></script>
+</html>

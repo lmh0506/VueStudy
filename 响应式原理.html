@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="vue.js"></script>
+        <style type="text/css">
+            .active{
+                background: red;
+            }
+            .static{
+                width:100px;
+                height:100px;
+            }
+            .border{
+                border:5px solid blue;
+            }
+        </style>
+        <script src="https://cdn.rawgit.com/chrisvfritz/5f0a639590d6e648933416f90ba7ae4e/raw/98739fb8ac6779cb2da11aaa9ab6032e52f3be00/currency-validator.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <myapp v-bind:abc='message'></myapp>
+        </div>
+        <div id="app2">
+            <example></example>
+        </div>
+    </body>
+    <script type="text/javascript">
+        Vue.component('myapp',{
+            props:['abc'],
+            template:`<p>{{abc}}</p>`
+        })
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                'message':1
+            }
+        })
+        vm.message = 'new message';
+        console.log(vm.$el.textContent === 'new message');//数据还未更新  返回false
+        Vue.nextTick(function(){//数据更新完成
+            console.log(vm.$el.textContent === 'new message'); //返回true
+        })
+
+
+        Vue.component('example',{
+            template:`<span v-on:click='updateMessage'>{{dataMsg}}</span>`,
+            data:function(){
+                return {
+                    dataMsg:'not update'
+                }
+            },
+            methods:{
+                updateMessage:function(){
+                    this.dataMsg = 'update'
+                    console.log(this.$el.textContent);//没有更新完成
+                    this.$nextTick(function(){
+                        console.log(this.$el.textContent);//更新完成
+                    })
+                }
+            }
+        })
+       var vm2 = new Vue({
+            el:'#app2'
+        })
+    </script>
+</html>

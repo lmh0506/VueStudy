@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="vue.js"></script>
+        <style type="text/css">
+            .active{
+                background: red;
+            }
+            .static{
+                width:100px;
+                height:100px;
+            }
+            .border{
+                border:5px solid blue;
+            }
+            .color-preview{
+                display: inline-block;
+                width: 50px;
+                height:50px;
+            }
+        </style>
+        <script src="https://unpkg.com/tween.js@16.3.4"></script>
+        <script src="https://unpkg.com/color-js@1.0.3/color.js"></script>
+    </head>
+    <body>
+        <div id="example">
+            <anchored-heading :level="1"><p>test</p>Hello world!</anchored-heading>
+            <anchored-heading :level="2">Hello world</anchored-heading>
+            <anchored-heading :level="3">Hello </anchored-heading>
+            <anchored-heading :level="4">Hello</anchored-heading>
+            <anchored-heading :level="5">Hello!</anchored-heading>
+        </div>
+
+        <div id="for">
+            <fortest v-bind:items-child="itemsParent"></fortest>
+        </div>
+    </body>
+    <script type="text/javascript">
+        var getChildrenTextContent = function(children){
+            return children.map(function(node){
+                return node.children
+                ?getChildrenTextContent(node.children)
+                :node.text
+            }).join('');
+        }
+
+        Vue.component('anchored-heading',{
+            render:function(createElement){
+                var headingId = getChildrenTextContent(this.$slots.default)
+                .toLowerCase()
+                .replace(/\W+/g,'-')
+                .replace(/(^\-|\-$)/g,'')
+                    return createElement(
+                        'h' + this.level,
+                        [
+                            createElement('a',{
+                                attrs:{
+                                    name:headingId,
+                                    href:'#' + headingId
+                                }
+                            },this.$slots.default)
+                        ]
+                        )
+            },
+            props:{
+                level:{
+                    type:Number,
+                    required:true
+                }
+            }
+        })
+        new Vue({
+            el:'#example'
+        })
+
+        Vue.component('fortest',{
+            render:function(createElement){
+                if(this.itemsChild.length){
+                    return createElement('ul',this.itemsChild.map(function(item){
+                        return createElement('li',item.name)
+                    }))
+                }else{
+                    return createElement('p','NO items found')
+                }
+            },
+            props:['itemsChild']
+        })
+       var fortest =  new Vue({
+            el:'#for',
+            data:{
+                itemsParent:[
+                    {name:'one'},
+                    {name:'two'},
+                    {name:'three'}
+                ]
+            }
+        })
+    </script>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="vue.js"></script>
+        <style type="text/css">
+            .active{
+                background: red;
+            }
+            .static{
+                width:100px;
+                height:100px;
+            }
+            .border{
+                border:5px solid blue;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            {{message}}
+        </div>
+        <div id="app2">
+            <span v-bind:title = "message">
+                hover your mouse over me for a few seconds to see my dynamically bound title!
+            </span>
+        </div>
+        <div id="app3">
+            <p v-if="seen">now you see me</p>
+        </div>
+        <div id="app4">
+            <ol>
+                <li v-for="todo in todos">
+                    {{todo.text +"     "+ todo.name}}
+                </li>
+            </ol>
+        </div>
+        <div id="app5">
+            <p v-on:click="mousedown">{{message}}</p>
+            <button v-on:click = "reverseMessage">Reverse Message</button>
+        </div>
+
+        <div id="app6">
+            <p>{{message}}</p>
+            <input v-model="message">
+        </div>
+        <div id="app7">
+            <ol>
+                <todo-item v-for="item in array" v-bind:todo="item"></todo-item>
+            </ol>
+            
+        </div>
+        <div id="app8">
+            <p>before reversed  :  {{message}}</p>
+            <p>after reversed  :  {{reversedMessage}}</p>
+        </div>
+        <div class="static" v-bind:class="{active: isActive,border:isBorder}"></div>
+        <div id="app9" class="static" v-bind:class="classObj"></div>
+        <test-Component class='static'></test-Component>
+
+        <div id="app10">
+            <div v-if="type===10">A</div>
+            <div v-else-if="type===8">B</div>
+            <div v-else-if="type===6">C</div>
+            <div v-else>not ABC</div>
+        </div>
+
+        <div id="app11">
+            <template v-if="name=='username'">
+                <label>username</label>
+                <input placeholder="enter your username" key="userName-input"/>
+            </template>
+            <template v-else>
+                <label>emailName</label>
+                <input placeholder="enter your emailName" key="emailName-input"/>
+            </template>
+            <input type="button" name="" value="login" v-on:click="login">
+        </div>
+
+        <div id="app12">
+            <ul>
+                <li v-for="(item,index) in items">
+                    {{parentMessage}}-{{index}}-{{item.name}}
+                </li>
+            </ul>
+        </div>
+        <ul id="obj">
+            <li v-for="item in obj">
+                {{item}}
+            </li>
+
+            <li v-for='(item,key,index) in obj'>
+                {{index}}.{{key}}:{{item}}
+            </li>
+        </ul>
+
+        <div id="todo-list-example">
+            <input
+                v-model="newTodoText"
+                v-on:keyup.enter ="addNewTodo"
+                placeholder="Add a todo"
+            >
+            <ul>
+                <li
+                    is="todo-item"
+                    v-for="(todo,index) in todos"
+                    v-bind:title="todo"
+                    v-on:remove="todos.splice(index,1)"
+                ></li>
+            </ul>
+        </div>
+        <div id="edit">
+           <input v-model="message" placeholder="editing me">
+            <p>message is{{message}}</p> 
+
+            <select v-model="selected">
+                <option v-for="option in options" v-bind:value="option.value">
+                    {{option.text}}
+                </option>
+                
+            </select>
+            <span>{{selected}}</span>
+
+            <select v-model="selectedArry" multiple>
+                <option v-for="option in options" v-bind:value="option.value">
+                    {{option.text}}
+                </option>
+                
+            </select>
+            <span>{{selectedArry}}</span>
+
+        </div>
+        
+    </body>
+    <script type="text/javascript" src="test.js"></script>
+
+</html>
